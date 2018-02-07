@@ -12,8 +12,8 @@ const config = {
 const app = Firebase.initializeApp(config);
 const db = app.database();
 
-const postsRef = db.ref("posts");
-const userRef = db.ref("users");
+const postsRef = db.ref('posts');
+const userRef = db.ref('users');
 
 export {
   postsRef,

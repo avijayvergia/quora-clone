@@ -1,8 +1,14 @@
 <template>
   <div>
-    <ul>
-      <li v-for="post in posts">{{post.userID}} : {{post.content}}</li>
-    </ul>
+    <tile-layout v-for="post in postList" :key="post.id">
+      <div slot="tile-header">
+        {{post.userID}}
+        {{post.userName}}
+      </div>
+      <div slot="tile-body">
+        {{post.content}}
+      </div>
+    </tile-layout>
     <el-input placeholder="Enter Content" v-model="post.content"></el-input>
     <el-input placeholder="Enter Date of publishing" v-model="post.date"></el-input>
     <button @click="addObject">Click ME</button>
@@ -11,9 +17,17 @@
 
 <script>
   import {postsRef, userRef} from '../middleware/firebase';
+  import TileLayout from "./Tile/TileLayout";
 
   export default {
-    name: "feeds",
+    components: {
+      TileLayout},
+    name: "feeds-component",
+    computed: {
+      postList() {
+        return this.posts;
+      }
+    },
     data() {
       return {
         post: {
@@ -27,7 +41,7 @@
     },
     firebase: {
       posts: postsRef,
-      users: userRef
+      users: userRef,
     },
     methods: {
       addObject() {

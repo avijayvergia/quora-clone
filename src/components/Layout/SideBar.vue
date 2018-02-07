@@ -1,7 +1,7 @@
 <template>
     <el-menu
       class="sidebar"
-      background-color="#545c64"
+      background-color="black"
       text-color="#fff"
       active-text-color="#ffd04b"
       :router="true">

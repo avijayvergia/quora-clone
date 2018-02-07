@@ -1,10 +1,13 @@
 <template>
-  <div>Feeds</div>
+  <feeds-component></feeds-component>
 </template>
 
 <script>
+    import FeedsComponent from "../components/FeedsComponent";
+
     export default {
-        name: "feeds"
+      components: {FeedsComponent},
+      name: "feeds"
     }
 </script>
 
