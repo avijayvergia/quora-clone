@@ -3,7 +3,8 @@
     <ul>
       <li v-for="post in posts">{{post.userID}} : {{post.content}}</li>
     </ul>
-    <el-input placeholder="Content" v-model="input"></el-input>
+    <el-input placeholder="Enter Content" v-model="post.content"></el-input>
+    <el-input placeholder="Enter Date of publishing" v-model="post.date"></el-input>
     <button @click="addObject">Click ME</button>
   </div>
 </template>
@@ -31,7 +32,13 @@ export default {
   name: "App",
   data() {
     return {
-      input: ''
+      post: {
+        content: '',
+        date: ' ',
+        dislike: 0,
+        likes: 0,
+        userID: 100
+      }
     };
   },
   firebase: {
@@ -40,16 +47,13 @@ export default {
   },
   methods: {
     addObject() {
-      postsRef.push({
-        userID: 103,
-        content: "This is it"
-      });
+      postsRef.push(this.post);
     }
   }
 };
 </script>
 
-<style >
+<style scoped>
 #app {
   font-family: Helvetica, sans-serif;
   text-align: center;
