@@ -12,6 +12,8 @@
   "dependencies": {
     "element-ui": "^2.1.0",
     "firebase": "^4.9.0",
+    "node-sass": "^4.7.2",
+    "sass-loader": "^6.0.6",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuefire": "^1.4.5",

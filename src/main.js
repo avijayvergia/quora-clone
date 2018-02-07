@@ -3,17 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './middleware/router/router'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import VueFire from 'vuefire'
 
 Vue.config.productionTip = false;
 
 Vue.use(VueFire);
+Vue.use(ElementUI);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  render(h) {
-    return h(App);
-  },
+  render: h => h(App),
 });
