@@ -2,10 +2,10 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import router from './middleware/router/router'
 import VueFire from 'vuefire'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.use(VueFire);
 
@@ -13,6 +13,7 @@ Vue.use(VueFire);
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render(h) {
+    return h(App);
+  },
+});
