@@ -1,15 +1,16 @@
 <template>
   <div id="app">
     <ul>
-      <li v-for="post in posts">{{post.title}} : {{post.description}}</li>
+      <li v-for="post in posts">{{post.userID}} : {{post.content}}</li>
     </ul>
+    <el-input placeholder="Content" v-model="input"></el-input>
     <button @click="addObject">Click ME</button>
   </div>
 </template>
 
 <script>
-import Hello from "./components/HelloWorld"
-import Firebase from "firebase"
+import Hello from "./components/HelloWorld";
+import Firebase from "firebase";
 
 let config = {
   apiKey: "AIzaSyAEsBBiwa5urABeTTjCGBez1GI2PSK1pRY",
@@ -23,24 +24,34 @@ let config = {
 let app = Firebase.initializeApp(config);
 let db = app.database();
 
-let postsRef = db.ref('posts');
+let postsRef = db.ref("posts");
+let userRef = db.ref("users");
 
 export default {
   name: "App",
-  firebase: {
-    posts: postsRef
+  data() {
+    return {
+      input: ''
+    };
   },
-  methods:{
-    addObject(){
-      this.posts.push({
-        title: 'someRandomTitle',
-        description: 'someRandomDescription'
-      })
+  firebase: {
+    posts: postsRef,
+    users: userRef
+  },
+  methods: {
+    addObject() {
+      postsRef.push({
+        userID: 103,
+        content: "This is it"
+      });
     }
   }
-}
+};
 </script>
 
 <style >
-
+#app {
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+}
 </style>
