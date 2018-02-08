@@ -4,6 +4,7 @@
         <slot name="tile-header"/>
       </div>
       <div class="tile__body">
+           <slot name="tile-image" class="image"/>
         <slot name="tile-body"/>
       </div>
     </el-card>
@@ -20,7 +21,7 @@
 
 <style lang="scss" scoped>
 .tile {
-  height: 200px;
+
   margin-top: 10px;
   margin-bottom: 10px;
 
