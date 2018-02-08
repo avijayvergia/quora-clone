@@ -26,6 +26,7 @@
   margin-bottom: 10px;
 
   &__header {
+    border-bottom: 0.5px solid darkred;
     margin-top: -20px;
     margin-left: -20px;
     margin-right: -20px;
