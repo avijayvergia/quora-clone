@@ -29,28 +29,10 @@ export default {
     users: userRef
   },
   methods: {
-    // addObject() {
-    //   this.dialogFormVisible = false;
-    //   postsRef.push(this.post);
-    // },
-    // addAttachment(file, fileList) {
-    //   const imageUID = String(file.file.uid);
-    //   postStorageRef
-    //     .child(imageUID)
-    //     .put(file.file)
-    //     .then(snapShot => {
-    //       this.post.imageUrl = snapShot.downloadURL;
-    //     });
-    // },
-    // handleAvatarSuccess(res, file) {},
-    // beforeAvatarUpload(file) {
-    //   return true;
-    // },
     addName(object, item) {
       object.userName = `${item.val().firstName} ${item.val().lastName}`;
     }
-  }
-};
+  };
 </script>
 
 <style scoped>
