@@ -3,12 +3,27 @@
     <tile-layout v-for="post in postList" :key="post.id">
       <div slot="tile-header">
         {{post.userName}}
+        <br>
+        <span style="font-size: 12px">{{post.date}}</span>
       </div>
-      <div slot="tile-body">
-        <h2>{{post.content}}</h2>
+      <div slot="tile-body" style="font-size: 14px">
+        {{post.content}}
       </div>
       <div slot="tile-image">
         <img :src="post.imageUrl">
+      </div>
+      <br>
+      <div slot="post-like-section">
+        <el-row :gutter="20" type="flex">
+          <el-col span="4" @click="like(post)">
+            <i class="el-icon-arrow-up"></i>
+            <span>{{post.likes}}</span>
+          </el-col>
+          <el-col span="4" @click="dislike(post)">
+            <i class="el-icon-arrow-down"></i>
+            <span>{{post.dislike}}</span>
+          </el-col>
+        </el-row>
       </div>
     </tile-layout>
     <!-- Form -->
@@ -16,10 +31,10 @@
     <el-button type="primary" plain @click="dialogFormVisible = true">POST</el-button>
     <el-dialog title="NEW POST" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="Content" :label-width="formLabelWidth">
+        <el-form-item label="Content">
           <el-input v-model="post.content" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="Choose Image" :label-width="formLabelWidth">
+        <el-form-item label="Choose Image">
           <el-upload class="avatar-uploader" action="" :http-request="addAttachment" :show-file-list="false" :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload">
             <img v-if="post.imageUrl" :src="post.imageUrl" class="avatar">
@@ -60,7 +75,7 @@
       return {
         post: {
           content: "",
-          date: " ",
+          date: "",
           dislike: 0,
           likes: 0,
           userID: 100,
@@ -95,6 +110,13 @@
       },
       addName(object, item) {
         object.userName = `${item.val().firstName} ${item.val().lastName}`;
+      },
+      like(post) {
+        
+
+      },
+      dislike(post) {
+        
       }
     }
   };

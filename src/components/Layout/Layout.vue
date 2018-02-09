@@ -4,7 +4,9 @@
       <side-bar/>
     </div>
     <div class="page-layout__content">
-      <router-view/>
+      <div>
+        <router-view/>
+      </div>
     </div>
   </div>
 </template>
@@ -13,26 +15,25 @@
   import SideBar from "./SideBar";
 
   export default {
-    components: {SideBar},
+    components: { SideBar },
     name: "layout"
   }
 </script>
 
 <style lang="scss" scoped>
-.page-layout {
-  height: 100vh;
-  display: flex;
-  justify-content: space-between;
+  .page-layout {
+    height: 100vh;
+    display: flex;
 
-  &__sidebar {
-    min-width: 200px;
-    flex: 1;
-    margin-left: -10px;
-    margin-top: -10px;
-  }
+    &__sidebar {
+      min-width: 200px;
+      flex: 1;
+      margin-left: -10px;
+      margin-top: -10px;
+    }
 
-  &__content {
-    flex: 10;
+    &__content {
+      flex: 8;
+    }
   }
-}
 </style>

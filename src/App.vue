@@ -1,5 +1,8 @@
 <template>
+<div>
   <layout></layout>
+</div>
+  
 </template>
 
 <script>
@@ -19,10 +22,6 @@
   };
 </script>
 
-<style lang="scss" scoped>
-  #app {
-    font-family: Helvetica, sans-serif;
-    text-align: center;
-    height: 100vh;
-  }
+<style>
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 </style>
