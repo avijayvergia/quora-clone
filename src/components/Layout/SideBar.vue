@@ -1,29 +1,40 @@
 <template>
     <el-menu
       class="sidebar"
-      background-color="black"
-      text-color="#fff"
-      active-text-color="#ffd04b"
+      background-color="#282F3E"
+      text-color="#C0C2BD"
+      active-text-color="#379CE7"
       :router="true">
-      <el-menu-item index="profile">My Profile</el-menu-item>
-      <el-menu-item index="feeds">Feed</el-menu-item>
+      <el-menu-item index="profile">MY PROFILE</el-menu-item>
+      <el-menu-item index="feeds">FEED</el-menu-item>
+      <el-menu-item @click="logout">LOG OUT</el-menu-item>
     </el-menu>
 </template>
 
 <script>
-  export default {
-    name: "side-bar",
-    data() {
-      return {
-        isCollapse: true
-      };
-    },
+import { Firebase } from "../../middleware/firebase";
+
+export default {
+  name: "side-bar",
+  data() {
+    return {
+      isCollapse: true
+    };
+  },
+  methods: {
+    logout() {
+      Firebase.auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("login");
+        });
+    }
   }
+};
 </script>
 
 <style lang="scss" scoped>
 .sidebar {
   height: 100%;
 }
-
 </style>

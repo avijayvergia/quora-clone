@@ -30,7 +30,7 @@
     margin-left: -20px;
     margin-right: -20px;
     height: 50px;
-    background-color: red;
+    background-color: #379CE7;
     color: ghostwhite;
   }
 }

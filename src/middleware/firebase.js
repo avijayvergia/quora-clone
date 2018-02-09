@@ -18,9 +18,9 @@ const postStorageRef = app
 .storage()
 .ref();
 
-
 export {
   postsRef,
   userRef,
-  postStorageRef
+  postStorageRef,
+  Firebase
 }
