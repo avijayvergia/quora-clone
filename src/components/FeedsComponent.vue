@@ -12,7 +12,6 @@
       <div slot="tile-image">
         <img :src="post.imageUrl">
       </div>
-      <br>
       <div slot="post-like-section">
         <el-row :gutter="20" type="flex">
           <el-col span="4" @click="like(post)">
@@ -28,7 +27,7 @@
     </tile-layout>
     <!-- Form -->
     <br>
-    <el-button type="primary" plain @click="dialogFormVisible = true">POST</el-button>
+    <el-button type="primary" plain @click="dialogFormVisible = true" icon="el-icon-edit" id="fixed-postButton">POST</el-button>
     <el-dialog title="NEW POST" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="Content">
@@ -148,5 +147,11 @@
     width: 178px;
     height: 178px;
     display: block;
+  }
+
+  #fixed-postButton{
+    position: fixed;
+    bottom: 30px;
+    right: 30px; 
   }
 </style>
