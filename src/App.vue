@@ -1,13 +1,19 @@
 <template>
-  <layout/>
+  <layout></layout>
 </template>
 
 <script>
   import Layout from "./components/Layout/Layout";
+  import login from './pages/LogIn';
 
   export default {
     components: {
       Layout,
+    },
+    method: {
+      isAuthenticated(){
+          return true;
+      }
     },
     name: "App",
   };
