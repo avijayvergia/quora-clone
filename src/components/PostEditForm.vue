@@ -1,5 +1,4 @@
 <template>
-  <el-dialog title="Edit Post" :visible.sync="dialogFormVisible">
     <el-form :model="addPostForm">
       <el-form-item label="Content" :label-width="formLabelWidth">
         <el-input v-model="post.content" auto-complete="off"></el-input>
@@ -21,7 +20,6 @@
     <el-button @click="dialogFormVisible = false">Cancel</el-button>
     <el-button type="primary" @click="addObject">Post</el-button>
   </span>
-  </el-dialog>
 </template>
 
 <script>
@@ -30,15 +28,14 @@
     data() {
       return {
         post: {
-          content: "",
-          date: " ",
+          content: '',
+          date: '',
           dislike: 0,
           likes: 0,
-          userID: 100,
-          imageUrl: "",
-          userName: ""
+          userID: '',
+          imageUrl: '',
+          userName: ''
         },
-        dialogFormVisible: false
       };
     },
   }
