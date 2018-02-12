@@ -16,7 +16,7 @@ const postsRef = db.ref('posts');
 const userRef = db.ref('users');
 const postStorageRef = app
 .storage()
-.ref();
+.ref().child('Posts');
 
 export {
   postsRef,

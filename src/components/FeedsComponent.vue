@@ -51,107 +51,108 @@
 </template>
 
 <script>
-  import { postsRef, userRef, postStorageRef } from "../middleware/firebase";
-  import TileLayout from "./Tile/TileLayout";
+import { postsRef, userRef, postStorageRef } from "../middleware/firebase";
+import TileLayout from "./Tile/TileLayout";
 
-  export default {
-    components: {
-      TileLayout
-    },
-    name: "feeds-component",
-    computed: {
-      postList() {
-        this.posts.map(element => {
-          userRef
-            .orderByKey()
-            .equalTo(String(element.userID))
-            .on("child_added", snapshot => this.addName(element, snapshot));
-        });
-        return this.posts;
-      }
-    },
-    data() {
-      return {
-        post: {
-          content: "",
-          date: "",
-          dislike: 0,
-          likes: 0,
-          userID: 100,
-          imageUrl: "",
-          userName: ""
-        },
-        dialogTableVisible: false,
-        dialogFormVisible: false
-      };
-    },
-    firebase: {
-      posts: postsRef,
-      users: userRef
-    },
-    methods: {
-      addObject() {
-        this.dialogFormVisible = false;
-        postsRef.push(this.post);
-      },
-      addAttachment(file, fileList) {
-        const imageUID = String(file.file.uid);
-        postStorageRef
-          .child(imageUID)
-          .put(file.file)
-          .then(snapShot => {
-            this.post.imageUrl = snapShot.downloadURL;
-          });
-      },
-      handleAvatarSuccess(res, file) { },
-      beforeAvatarUpload(file) {
-        return true;
-      },
-      addName(object, item) {
-        object.userName = `${item.val().firstName} ${item.val().lastName}`;
-      },
-      like(post) {
-        
-
-      },
-      dislike(post) {
-        
-      }
+export default {
+  components: {
+    TileLayout
+  },
+  name: "feeds-component",
+  computed: {
+    postList() {
+      this.posts.map(element => {
+        userRef
+          .orderByKey()
+          .equalTo(String(element.userID))
+          .on("child_added", snapshot => this.addName(element, snapshot));
+      });
+      return this.posts;
     }
-  };
+  },
+  data() {
+    return {
+      post: {
+        content: "",
+        date: "",
+        dislike: 0,
+        likes: 0,
+        userID: 100,
+        imageUrl: "",
+        userName: "",
+        comments: ""
+      },
+      dialogTableVisible: false,
+      dialogFormVisible: false
+    };
+  },
+  firebase: {
+    posts: postsRef,
+    users: userRef
+  },
+  methods: {
+    addObject() {
+      this.dialogFormVisible = false;
+      postsRef.push(this.post);
+      this.$notify({
+            title: "Success",
+            message: "You post has been successfully added",
+            type: "success"
+          })
+    },
+    addAttachment(file, fileList) {
+      const imageUID = String(file.file.uid);
+      postStorageRef
+        .child(imageUID)
+        .put(file.file)
+        .then(snapShot => {
+          this.post.imageUrl = snapShot.downloadURL;
+        });
+    },
+    handleAvatarSuccess(res, file) {},
+    beforeAvatarUpload(file) {
+      return true;
+    },
+    addName(object, item) {
+      object.userName = `${item.val().firstName} ${item.val().lastName}`;
+    },
+    like(post) {},
+    dislike(post) {}
+  }
+};
 </script>
 
 <style scoped>
-  .avatar-uploader .el-upload {
-    border: 5px #409eff;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
+.avatar-uploader .el-upload {
+  border: 5px #409eff;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
 
-  .avatar-uploader .el-upload:hover {
-    border-color: #409eff;
-  }
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
 
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
 
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 
-  #fixed-postButton{
-    position: fixed;
-    bottom: 30px;
-    right: 30px; 
-  }
+#fixed-postButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
 </style>

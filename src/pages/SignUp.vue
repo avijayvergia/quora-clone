@@ -1,10 +1,10 @@
 <template>
   <div class="sign-up">
     <p>Let's create a new account !</p>
-    <el-input placeholder="Email" v-model="email" clearable size="medium">
+    <el-input placeholder="Email" v-model="email" clearable>
     </el-input>
     <br>
-    <el-input placeholder="Password" v-model="password" clearable size="medium">
+    <el-input placeholder="Password" v-model="password" clearable>
       </el-input>
     <br>
     <el-button type="success" v-on:click="signUp">Sign Up</el-button>
