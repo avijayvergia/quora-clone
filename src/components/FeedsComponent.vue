@@ -19,7 +19,7 @@ export default {
         userRef
           .orderByKey()
           .equalTo(String(element.userID))
-          .on("child_added", snapshot => this.addName(element, snapshot));
+          .on("child_added", snapshot => this.addUserInfo(element, snapshot));
       });
       return this.posts;
     }
@@ -29,10 +29,12 @@ export default {
     users: userRef
   },
   methods: {
-    addName(object, item) {
+    addUserInfo(object, item) {
       object.userName = `${item.val().firstName} ${item.val().lastName}`;
+      object.userPic = item.val().imageUrl;
     }
-  };
+  }
+};
 </script>
 
 <style scoped>

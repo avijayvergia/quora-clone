@@ -1,25 +1,53 @@
 <template>
+  <div>
+    <component-dialog :title="title" :dialog-visible.sync="dialogVisible">
+      <post-edit-form :post="post" slot="content"></post-edit-form>
+    </component-dialog>
   <tile-layout>
     <div slot="tile-header">
-      <post-tile-header :userName="post.userName" :userPic="post.imageUrl"/>
+      <post-tile-header :user-info="userInfo" @action="trigger"/>
     </div>
     <div slot="tile-body">
       <h2>{{post.content}}</h2>
     </div>
   </tile-layout>
+  </div>
 </template>
 
 <script>
     import TileLayout from "../Tile/TileLayout";
     import PostTileHeader from "./PostTileHeader";
+    import ComponentDialog from "../ComponentDialog";
+    import PostEditForm from "../PostEditForm";
 
     export default {
       components: {
+        PostEditForm,
         PostTileHeader,
-        TileLayout},
+        TileLayout,
+        ComponentDialog},
       name: "post-tile",
       props: {
         post: { type: Object, required: true },
+      },
+      computed: {
+        userInfo() {
+          return {
+            name: this.post.userName,
+          }
+        }
+      },
+      data() {
+        return {
+          dialogVisible: false,
+          title: '',
+        }
+      },
+      methods: {
+        trigger(action) {
+          this.dialogVisible=true;
+          this.title = action;
+        },
       }
     }
 </script>

@@ -2,7 +2,7 @@
 <div>
   <layout></layout>
 </div>
-  
+
 </template>
 
 <script>
@@ -12,11 +12,6 @@
   export default {
     components: {
       Layout,
-    },
-    method: {
-      isAuthenticated(){
-          return true;
-      }
     },
     name: "App",
   };

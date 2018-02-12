@@ -1,25 +1,41 @@
 <template>
   <div class="posttile">
     <div class="posttile__info">
-      <img :src="userPic" width="50px" height="50px"/>
-      <div class="posttile__name">
-        {{userName}}
-      </div>
+      <user-info-row :user-info="userInfo"></user-info-row>
     </div>
     <div class="posttile__actions">
-      <el-button type="default" icon="el-icon-edit" size="mini"></el-button>
-      <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+      <el-dropdown size="mini" type="default" @command="handleCommand">
+        <i class="el-icon-more-outline"/>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="Edit Post"><i class="el-icon-edit"/> Edit</el-dropdown-item>
+          <el-dropdown-item command="Delete Post"><i class="el-icon-delete"/> Delete</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
 
 <script>
+  import UserInfoRow from "../UserInfoRow";
+
   export default {
+    components: {UserInfoRow},
     name: "post-tile-header",
     props: {
-      userPic: {type: String, default: require('@/assets/nopreviewavailable.png')},
-      userName: {type: String, required: true},
+      userInfo: {type: Object, required: true},
     },
+    computed: {
+      userInfo() {
+        return {
+          name: this.post.userName,
+        }
+      }
+    },
+    methods: {
+      handleCommand(command) {
+        this.$emit('action', command);
+      },
+    }
   }
 </script>
 
@@ -33,8 +49,6 @@
 
     &__info {
       float: left;
-      display: flex;
-      justify-content: flex-start;
     }
 
     &__actions {
