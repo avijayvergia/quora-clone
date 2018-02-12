@@ -1,10 +1,28 @@
 <template>
   <div class="sign-up">
     <p>Let's create a new account !</p>
-    <el-input placeholder="Email" v-model="email" clearable size="medium">
+    <el-input placeholder="First Name" v-model="userInfo.firstName" clearable size="medium">
     </el-input>
     <br>
-    <el-input placeholder="Password" v-model="password" clearable size="medium">
+    <el-input placeholder="Last Name" v-model="userInfo.lastName" clearable size="medium">
+    </el-input>
+    <br>
+    <p>Date of birth</p>
+    <!--TODO: Try to Get rid of unnecessary date model-->
+    <el-date-picker
+      type="date"
+      v-model="date"
+      @change="serializeDateTime"
+      placeholder="Pick a day">
+    </el-date-picker>
+    <br>
+    <el-radio v-model="userInfo.sex" label="M">Male</el-radio>
+    <el-radio v-model="userInfo.sex" label="F">Female</el-radio>
+    <br>
+    <el-input placeholder="Email" v-model="userInfo.email" clearable size="medium">
+    </el-input>
+    <br>
+    <el-input placeholder="Password" v-model="userInfo.password" type="password" size="medium">
       </el-input>
     <br>
     <el-button type="success" v-on:click="signUp">Sign Up</el-button>
@@ -14,30 +32,40 @@
 </template>
 
 <script>
-  import { Firebase } from "../middleware/firebase";
+  import { Firebase, userRef } from "../middleware/firebase";
   export default {
     name: "signUp",
-    data: function () {
+    data() {
       return {
-        email: "",
-        password: ""
+        date: null,
+        userInfo: {
+          firstName: '',
+          lastName: '',
+          dateOfBirth: '',
+          email: '',
+          password: '',
+          sex: '',
+        }
       };
     },
     methods: {
       signUp: function () {
-        console.log("Inside signup function");
         Firebase.auth()
-          .createUserWithEmailAndPassword(this.email, this.password)
+          .createUserWithEmailAndPassword(this.userInfo.email, this.userInfo.password)
           .then(
             user => {
-              console.log(user);
+              userRef.child(user.uid).set(this.userInfo);
               this.$router.replace("feeds");
             },
             err => {
               alert("Oops. " + err.message);
             }
           );
-      }
+      },
+      // TODO: Consider moving this to a reusable helper method
+      serializeDateTime(dateObj) {
+        this.userInfo.dateOfBirth = this.$moment(dateObj).format('MM-DD-YYYY');
+      },
     }
   };
 </script>

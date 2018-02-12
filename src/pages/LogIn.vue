@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Firebase } from "../middleware/firebase";
+import { Firebase, userRef } from "../middleware/firebase";
 export default {
   name: "login",
   data: function() {
@@ -19,24 +19,29 @@ export default {
     };
   },
   methods: {
-    signIn: function() {
+    signIn() {
       Firebase.auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
           user => {
+            this.getUserInfo(user.uid);
             this.$router.replace("feeds");
           },
           err => {
             alert("Oops. " + err.message);
           }
         );
-    }
+    },
+    getUserInfo(uid) {
+      userRef.child(uid).once('value').then((snapshot) => {
+        this.$store.commit('setUser', snapshot.val());
+      });
+    },
   }
 };
 </script>
 
-<style scoped>
-/* "scoped" attribute limit the CSS to this component only */
+<style lang="scss" scoped>
 .login {
   margin-top: 40px;
 }
