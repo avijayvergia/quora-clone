@@ -24,6 +24,13 @@ const store = new Vuex.Store({
     setUser (state, userInfo) {
       state.userInfo = userInfo.data;
       state.userInfo.key = userInfo.uid;
+    },
+
+    addConnection (state, uid) {
+      Vue.set(state.userInfo.friends, uid, true);
+      userRef.child(`${state.userInfo.key}/friends`).update({
+        [uid]: true,
+      });
     }
   },
 
@@ -37,6 +44,10 @@ const store = new Vuex.Store({
       }
       return usersList;
     },
+
+    getUserName: state => {
+      return `${state.userInfo.firstName} ${state.userInfo.lastName}`;
+    }
   }
 });
 
