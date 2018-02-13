@@ -1,16 +1,21 @@
 <template>
   <div>
     <post-tile v-for="post in postList" :post="post" :key="post.id"></post-tile>
+    <component-dialog :dialog-visible.sync="dialogVisible">
+    </component-dialog>
+    <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit" id="fixed-postButton">POST</el-button>
   </div>
 </template>
 
 <script>
 import { postsRef, userRef } from "../middleware/firebase";
 import PostTile from "./PostTile/PostTile";
+import ComponentDialog from "./ComponentDialog";
 
 export default {
   components: {
-    PostTile
+    PostTile,
+     ComponentDialog
   },
   name: "feeds-component",
   computed: {
@@ -23,6 +28,11 @@ export default {
       });
       return this.posts;
     }
+  },
+  data() {
+    return {
+      dialogVisible: false
+    };
   },
   firebase: {
     posts: postsRef,
@@ -38,33 +48,6 @@ export default {
 </script>
 
 <style scoped>
-.avatar-uploader .el-upload {
-  border: 5px #409eff;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-
 #fixed-postButton {
   position: fixed;
   bottom: 30px;
