@@ -55,7 +55,8 @@
           .then(
             user => {
               userRef.child(user.uid).set(this.userInfo);
-              this.$router.replace("feeds");
+              this.$store.commit('setUser', this.userInfo, user.uid);
+              this.$router.replace('feeds');
             },
             err => {
               alert("Oops. " + err.message);

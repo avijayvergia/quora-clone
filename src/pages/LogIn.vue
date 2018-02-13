@@ -25,7 +25,7 @@ export default {
         .then(
           user => {
             this.getUserInfo(user.uid);
-            this.$router.replace("feeds");
+            this.$router.replace('feeds');
           },
           err => {
             alert("Oops. " + err.message);
@@ -34,7 +34,7 @@ export default {
     },
     getUserInfo(uid) {
       userRef.child(uid).once('value').then((snapshot) => {
-        this.$store.commit('setUser', snapshot.val());
+        this.$store.commit('setUser', { data: snapshot.val(), uid: uid });
       });
     },
   }
