@@ -70,8 +70,17 @@ export default {
     },
     like(post) {
       //TODO: Add like and dislike comments
+      post.likes++;
+      const copy = { ...this.post };
+      delete copy[".key"];
+      postsRef.child(String(this.post[".key"])).set(copy);
     },
-    dislike(post) {}
+    dislike(post) {
+      post.dislike++;
+      const copy = { ...this.post };
+      delete copy[".key"];
+      postsRef.child(String(this.post[".key"])).set(copy);
+    }
   }
 };
 </script>

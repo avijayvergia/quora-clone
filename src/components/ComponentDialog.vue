@@ -43,21 +43,32 @@ export default {
   },
   methods: {
     confirm() {
-      console.log(this.actionToPerform);
-      //TODO: Add the edited post to firebase with the postsRef
-      console.log(String(this.post[".key"]));
-      console.log(this.actionToPerform);
       switch (String(this.actionToPerform)) {
         case "Edit Post":
           const copy = { ...this.post };
           delete copy[".key"];
           postsRef.child(String(this.post[".key"])).set(copy);
+          this.$notify({
+            title: "Success",
+            message: "You post has been edited",
+            type: "success"
+          });
           break;
         case "Delete Post":
           postsRef.child(String(this.post[".key"])).remove();
+          this.$notify({
+            title: "Success",
+            message: "You post has been deleted",
+            type: "success"
+          });
           break;
         case "":
           console.log("I am here again. No matter what");
+          this.$notify({
+            title: "Success",
+            message: "You post has been successfully uploaded",
+            type: "success"
+          });
           postsRef.push(this.post);
           break;
       }
