@@ -5,11 +5,11 @@
       <span>Profile</span> </el-menu-item>
     <el-menu-item index="feeds">
        <i class="el-icon-document"></i>
-      <span>Feed</span> 
+      <span>Feed</span>
     </el-menu-item>
-    <el-menu-item @click="logout">
+    <el-menu-item @click="logout" index="logout">
         <i class="el-icon-close"></i>
-      <span>Log Out</span> 
+      <span>Log Out</span>
     </el-menu-item>
   </el-menu>
 

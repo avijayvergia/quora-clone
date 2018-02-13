@@ -1,13 +1,10 @@
 <template>
-  <div>
-    <el-button @click="log"></el-button>
-  </div>
-  <!--<feeds-component></feeds-component>-->
+  <feeds-component :posts="feed"></feeds-component>
 </template>
 
 <script>
     import FeedsComponent from "../components/FeedsComponent";
-    import { postsRef } from '../middleware/firebase';
+    import { postsRef, userRef } from '../middleware/firebase';
     import { mapGetters } from 'vuex';
     import ElButton from "element-ui/packages/button/src/button";
 
@@ -16,27 +13,32 @@
         ElButton,
         FeedsComponent},
       name: "feeds",
-      data() {
-        return {
-          feeds : null,
-        }
-      },
-      methods: {
-        log() {
-          console.log(this.getUserIds);
-          console.log(this.posts.filter((post) => this.getUserIds.indexOf(post.userID) > -1));
-        }
-      },
       computed: {
         ...mapGetters([
           'getUserIds',
         ]),
-        postList() {
+        filteredFeed() {
           return this.posts.filter((post) => this.getUserIds.indexOf(post.userID) > -1);
+        },
+        feed() {
+          this.filteredFeed.map(element => {
+            userRef
+              .orderByKey()
+              .equalTo(String(element.userID))
+              .on("child_added", snapshot => this.addUserInfo(element, snapshot));
+          });
+          return this.filteredFeed;
+        }
+      },
+      methods: {
+        addUserInfo(object, item) {
+          object.userName = `${item.val().firstName} ${item.val().lastName}`;
+          object.userPic = item.val().picUrl;
         }
       },
       firebase: {
-        posts: postsRef
+        posts: postsRef,
+        users: userRef,
       },
     }
 </script>
