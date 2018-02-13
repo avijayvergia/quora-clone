@@ -1,10 +1,17 @@
 <template>
-  <div class="login">
-    <h3>Sign In</h3>
-    <input type="text" v-model="email" placeholder="Email"><br>
-    <input type="password" v-model="password" placeholder="Password"><br>
-    <button v-on:click="signIn">Connection</button>
-    <p>You don't have an account ? You can <router-link to="/signup">create one</router-link></p>
+  <div class="parent">
+    <el-card class="login">
+    <h3>Log In</h3>
+     <el-input placeholder="Email" v-model="email" clearable>
+    </el-input>
+    <p></p>
+    <el-input placeholder="Password" v-model="password" clearable>
+      </el-input>
+    <p></p>
+    <el-button type="success" v-on:click="signIn">Log In</el-button>
+       <span>You don't have an account ? You can 
+      <router-link to="/signup">create one</router-link></span>
+  </el-card>
   </div>
 </template>
 
@@ -41,26 +48,34 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+/* "scoped" attribute limit the CSS to this component only */
+
+.parent {
+  background-image: url(../assets/background-a2f2fdf7dcdaafe1c52909ac3b643dea.svg);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .login {
-  margin-top: 40px;
+  width: 500px;
+  height: 300px;
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
 }
-input {
-  margin: 10px 0;
-  width: 20%;
-  padding: 15px;
-}
-button {
+
+span {
+  display: block;
   margin-top: 20px;
-  width: 10%;
-  cursor: pointer;
-}
-p {
-  margin-top: 40px;
   font-size: 13px;
-}
-p a {
-  text-decoration: underline;
-  cursor: pointer;
 }
 </style>
