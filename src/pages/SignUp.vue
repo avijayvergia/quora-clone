@@ -5,21 +5,21 @@
       <h3>Let's create a new account !</h3>
       <el-input placeholder="First Name" v-model="userInfo.firstName" clearable size="medium">
       </el-input>
-      <br>
+      <p></p>
       <el-input placeholder="Last Name" v-model="userInfo.lastName" clearable size="medium">
       </el-input>
-      <br>
+      <p></p>
       <p>Date of birth</p>
       <!--TODO: Try to Get rid of unnecessary date model-->
       <el-date-picker type="date" v-model="date" @change="serializeDateTime" placeholder="Pick a day">
       </el-date-picker>
-      <br>
+      <p></p>
       <el-radio v-model="userInfo.sex" label="M">Male</el-radio>
       <el-radio v-model="userInfo.sex" label="F">Female</el-radio>
-      <br>
+      <p></p>
       <el-input placeholder="Email" v-model="userInfo.email" clearable size="medium">
       </el-input>
-      <br>
+      <p></p>
       <el-input placeholder="Password" v-model="userInfo.password" type="password" size="medium">
 
       </el-input>
@@ -85,7 +85,7 @@
 
   .sign-up {
     width: 500px;
-    height: 300px;
+    height: 550px;
     font-family: "Roboto", sans-serif;
     position: absolute;
     top: 0;

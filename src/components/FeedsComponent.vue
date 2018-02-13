@@ -1,6 +1,6 @@
 <template>
   <div>
-    <post-tile v-for="post in postList" :post="post" v-if="!!post.userName" :key="post.id"></post-tile>
+    <post-tile v-for="post in postList" :post="post" :key="post.id"></post-tile>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ import PostTile from "./PostTile/PostTile";
 
 export default {
   components: {
-    PostTile,
+    PostTile
   },
   name: "feeds-component",
   computed: {
@@ -31,7 +31,7 @@ export default {
   methods: {
     addUserInfo(object, item) {
       object.userName = `${item.val().firstName} ${item.val().lastName}`;
-      object.userPic = item.val().imageUrl;
+      object.userPic = item.val().picUrl;
     }
   }
 };
