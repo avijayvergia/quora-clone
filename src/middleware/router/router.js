@@ -1,20 +1,30 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import routes from './routes'
-import { Firebase } from "../../middleware/firebase";
+import {Firebase, userRef} from "../../middleware/firebase";
+import store from '../../store/index';
 
 Vue.use(Router);
 
 let router = new Router({
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
-  let currentUser = Firebase.auth().currentUser;
-  let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  if (requiresAuth && !currentUser) next('login')
-  else if (!requiresAuth && currentUser) next('feeds')
-  else next()
-})
+    let currentUser = Firebase.auth().currentUser;
+    let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    if (requiresAuth && !currentUser) {
+      next('login');
+    }
+    else {
+      if (store.state.userInfo.key.length === 0) {
+        userRef.child(currentUser.uid).once('value').then((snapshot) => {
+          store.commit('setUser', {data: snapshot.val(), uid: currentUser.uid});
+        });
+      }
+      next();
+    }
+  }
+);
 
-export default router
+  export default router;
