@@ -9,6 +9,7 @@
       </el-input>
     <p></p>
     <el-button type="success" v-on:click="signIn">Log In</el-button>
+    <el-button type="success" v-on:click="signInWithGoogle">Google </el-button>
        <span>You don't have an account ? You can
       <router-link to="/signup">create one</router-link></span>
   </el-card>
@@ -16,7 +17,9 @@
 </template>
 
 <script>
-import { Firebase, userRef } from "../middleware/firebase";
+import { Firebase } from "../middleware/firebase";
+
+var provider = new Firebase.auth.GoogleAuthProvider();
 
 export default {
   name: "login",
@@ -39,6 +42,19 @@ export default {
           }
         );
     },
+    signInWithGoogle() {
+      //TODO: Check to send the user to the Feeds page after successful login
+      Firebase.auth()
+        .signInWithPopup(provider)
+        .then(function(result) {
+          var token = result.credential.accessToken;
+          this.$router.replace("feeds");
+          var user = result.user;
+        })
+        .catch(function(error) {
+          alert("Oops. " + error.message);
+        });
+    }
   }
 };
 </script>

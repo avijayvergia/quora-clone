@@ -4,7 +4,7 @@
       <user-info-row :userInfo="userInfo"></user-info-row>
     </div>
     <div class="posttile__actions">
-      <el-dropdown size="mini" type="default" @command="handleCommand">
+      <el-dropdown type="default" @command="handleCommand">
         <i class="el-icon-more-outline"/>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="Edit Post"><i class="el-icon-edit"/> Edit</el-dropdown-item>
