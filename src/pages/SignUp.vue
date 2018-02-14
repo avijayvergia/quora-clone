@@ -44,7 +44,8 @@
           dateOfBirth: "",
           email: "",
           password: "",
-          sex: ""
+          sex: "",
+          friends: false,
         }
       };
     },

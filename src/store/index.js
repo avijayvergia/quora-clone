@@ -27,10 +27,17 @@ const store = new Vuex.Store({
     },
 
     addConnection (state, uid) {
-      Vue.set(state.userInfo.friends, uid, true);
-      userRef.child(`${state.userInfo.key}/friends`).update({
+      const newConnection = {
         [uid]: true,
-      });
+      };
+
+      if (state.userInfo.friends) {
+        Vue.set(state.userInfo.friends, uid, true);
+      } else {
+        state.userInfo.friends = newConnection;
+      }
+
+      userRef.child(`${state.userInfo.key}/friends`).update(newConnection);
     }
   },
 
