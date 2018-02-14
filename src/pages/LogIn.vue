@@ -9,7 +9,7 @@
       </el-input>
     <p></p>
     <el-button type="success" v-on:click="signIn">Log In</el-button>
-       <span>You don't have an account ? You can 
+       <span>You don't have an account ? You can
       <router-link to="/signup">create one</router-link></span>
   </el-card>
   </div>
@@ -17,6 +17,7 @@
 
 <script>
 import { Firebase, userRef } from "../middleware/firebase";
+
 export default {
   name: "login",
   data: function() {
@@ -31,18 +32,12 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
           user => {
-            this.getUserInfo(user.uid);
-            this.$router.replace("feeds");
+            this.$router.replace('feeds');
           },
           err => {
             alert("Oops. " + err.message);
           }
         );
-    },
-    getUserInfo(uid) {
-      userRef.child(uid).once('value').then((snapshot) => {
-        this.$store.commit('setUser', snapshot.val());
-      });
     },
   }
 };
