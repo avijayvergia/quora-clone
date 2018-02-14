@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { Firebase, userRef } from "../middleware/firebase";
+import { Firebase } from "../middleware/firebase";
 
 var provider = new Firebase.auth.GoogleAuthProvider();
 
@@ -53,14 +53,6 @@ export default {
         })
         .catch(function(error) {
           alert("Oops. " + error.message);
-        });
-    },
-    getUserInfo(uid) {
-      userRef
-        .child(uid)
-        .once("value")
-        .then(snapshot => {
-          this.$store.commit("setUser", snapshot.val());
         });
     }
   }
