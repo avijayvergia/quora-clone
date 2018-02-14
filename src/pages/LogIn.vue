@@ -10,7 +10,7 @@
     <p></p>
     <el-button type="success" v-on:click="signIn">Log In</el-button>
     <el-button type="success" v-on:click="signInWithGoogle">Google </el-button>
-       <span>You don't have an account ? You can 
+       <span>You don't have an account ? You can
       <router-link to="/signup">create one</router-link></span>
   </el-card>
   </div>
@@ -35,8 +35,7 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(
           user => {
-            this.getUserInfo(user.uid);
-            this.$router.replace("feeds");
+            this.$router.replace('feeds');
           },
           err => {
             alert("Oops. " + err.message);

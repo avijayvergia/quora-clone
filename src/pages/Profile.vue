@@ -11,9 +11,16 @@
 </template>
 
 <script>
-export default {
-  name: "profile"
-};
+  import { mapGetters } from 'vuex';
+
+    export default {
+        name: "profile",
+      computed: {
+        ...mapGetters([
+          'getUserName',
+        ]),
+      }
+    };
 
 //TODO: Get data from store and update it in the profile page
 </script>

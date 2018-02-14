@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/feeds',
-    name: 'Feeds',
+    name: 'feeds',
     component: Feeds,
     meta: {
       requiresAuth: true
@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: '/profile',
-    name: 'Profile',
+    name: 'profile',
     component: Profile,
     meta: {
       requiresAuth: true
@@ -30,13 +30,13 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'LogIn',
+    name: 'login',
     component: LogIn
   },
 
   {
     path: '/signup',
-    name: 'SignUp',
+    name: 'signup',
     component: SignUp
   }
 ];

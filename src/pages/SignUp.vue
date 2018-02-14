@@ -44,7 +44,8 @@
           dateOfBirth: "",
           email: "",
           password: "",
-          sex: ""
+          sex: "",
+          friends: false,
         }
       };
     },
@@ -58,7 +59,7 @@
           .then(
             user => {
               userRef.child(user.uid).set(this.userInfo);
-              this.$router.replace("feeds");
+              this.$router.replace('feeds');
             },
             err => {
               alert("Oops. " + err.message);
