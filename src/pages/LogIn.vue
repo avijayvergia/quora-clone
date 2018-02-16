@@ -5,7 +5,7 @@
      <el-input placeholder="Email" v-model="email" clearable>
     </el-input>
     <p></p>
-    <el-input placeholder="Password" v-model="password" clearable>
+    <el-input placeholder="Password" v-model="password" type="password" clearable>
       </el-input>
     <p></p>
     <el-button type="success" v-on:click="signIn">Log In</el-button>

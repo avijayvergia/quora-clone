@@ -8,12 +8,12 @@
 </template>
 
 <script>
-import { postsRef, userRef } from "../middleware/firebase";
-import PostTile from "./PostTile/PostTile";
-import { mapGetters } from 'vuex';
-import ComponentDialog from "./ComponentDialog";
+  import {userRef} from "../middleware/firebase";
+  import PostTile from "./PostTile/PostTile";
+  import {mapGetters} from 'vuex';
+  import ComponentDialog from "./ComponentDialog";
 
-export default {
+  export default {
   components: {
     PostTile,
      ComponentDialog
@@ -21,20 +21,40 @@ export default {
   name: "feeds-component",
   computed: {
     ...mapGetters([
-      'getUserIds',
+      'getFriendIds',
+      'getUserId',
     ]),
-    filteredFeed() {
-      return this.posts.filter((post) => this.getUserIds.indexOf(post.userID) > -1);
+    getUserIds() {
+      return [...this.getFriendIds, this.getUserId];
     },
     feed() {
-      this.filteredFeed.map(element => {
-        userRef
-          .orderByKey()
-          .equalTo(String(element.userID))
-          .on("child_added", snapshot => this.addUserInfo(element, snapshot));
-      });
-      return this.filteredFeed;
-    }
+      const posts = [];
+
+      this.getUserIds.forEach((id) =>
+        userRef.child(id).on('value', (snapshot) => {
+          const val = snapshot.val();
+          const name = `${val.firstName} ${val.lastName}`;
+          const dp = val.userPic;
+
+          const postObj = val.posts;
+          for (let key in postObj){
+            const post = postObj[key];
+            post.key = key;
+            post.userName = name;
+            post.userPic = dp;
+            posts.push(post);
+          }
+          // if (val.posts){
+          //   Object.values(val.posts).forEach((post) => {
+          //     post.userName = name;
+          //     post.userPic = dp;
+          //     posts.push(post);
+          //   });
+          // }
+        })
+      );
+      return posts;
+    },
   },
   data() {
     return {
@@ -42,15 +62,8 @@ export default {
     };
   },
   firebase: {
-    posts: postsRef,
     users: userRef
   },
-  methods: {
-    addUserInfo(object, item) {
-      object.userName = `${item.val().firstName} ${item.val().lastName}`;
-      object.userPic = item.val().picUrl;
-    }
-  }
 };
 </script>
 

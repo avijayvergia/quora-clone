@@ -1,25 +1,22 @@
 <template>
-  <div>
-    <component-dialog :post="post" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible">
-    </component-dialog>
-
+  <div v-if="post.userName">
     <el-card class="tile">
-      <div class="tile__header">
+      <div>
         <post-tile-header :userInfo="userInfo" @action="trigger" />
       </div>
       <div class="tile__body">
         <hr>
-        <img :src="post.imageUrl">
-        <p style="font-size: 14px">{{post.content}}</p>
+        <img :src="post.imageUrl" style="width: 100%; height: 100%" v-if="post.imageUrl">
+        <p>{{post.content}}</p>
       </div>
       <div class="like-section">
         <p></p>
         <el-row :gutter="20" type="flex">
-          <el-col span="4" @click="like(post)">
+          <el-col @click="like(post)">
             <i class="el-icon-arrow-up"></i>
             <span>{{post.likes}}</span>
           </el-col>
-          <el-col span="4" @click="dislike(post)">
+          <el-col @click="dislike(post)">
             <i class="el-icon-arrow-down"></i>
             <span>{{post.dislike}}</span>
           </el-col>
@@ -32,14 +29,17 @@
         </el-collapse-item>
       </el-collapse>
     </el-card>
+
+    <component-dialog :post="editPost" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible" v-if="dialogVisible">
+    </component-dialog>
   </div>
 </template>
 
 <script>
-import PostTileHeader from "./PostTileHeader";
-import ComponentDialog from "../ComponentDialog";
+  import PostTileHeader from "./PostTileHeader";
+  import ComponentDialog from "../ComponentDialog";
 
-export default {
+  export default {
   components: {
     PostTileHeader,
     ComponentDialog
@@ -59,13 +59,14 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      actionToPerform: ""
+      actionToPerform: '',
+      editPost: null,
     };
   },
   methods: {
     trigger(action) {
       this.dialogVisible = true;
-      console.log(action);
+      this.editPost = {...this.post};
       this.actionToPerform = action;
     },
     like(post) {
@@ -81,29 +82,18 @@ export default {
       delete copy[".key"];
       postsRef.child(String(this.post[".key"])).set(copy);
     }
-  }
+  },
 };
 </script>
 
-<style scoped>
-img {
-  margin: auto;
-}
+<style scoped lang="scss">
+  .tile {
+    margin: 5px auto;
+    font-family: "Roboto", sans-serif;
+    width: 40%;
 
-.contentDiv {
-  display: flex;
-  flex-direction: column;
-}
-
-.tile {
-  width: 50%;
-  margin: 5px auto;
-  font-family: "Roboto", sans-serif;
-}
-
-.tile__body {
-  margin-top: 50px;
-  display: flex;
-  flex-direction: column;
-}
+    &__body {
+      margin-top: 50px;
+    }
+  }
 </style>

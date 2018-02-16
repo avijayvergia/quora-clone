@@ -37,13 +37,13 @@ const store = new Vuex.Store({
         state.userInfo.friends = newConnection;
       }
 
-      userRef.child(`${state.userInfo.key}/friends`).update(newConnection);
+      userRef.child(`${state.userId}/friends`).update(newConnection);
     }
   },
 
   getters: {
     getUserId: state => {
-      return state.userInfo.userId;
+      return state.userId;
     },
 
     getFriendIds: state => {

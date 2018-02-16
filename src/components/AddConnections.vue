@@ -2,7 +2,7 @@
   <div class="connections">
     <el-card>
       <tr>
-        <th>Suggested Users</th>
+        <th>Add Friends: </th>
       </tr>
       <tr v-for="connection in connectionNames">
         <td>{{connection.userName}}</td>
@@ -13,20 +13,24 @@
 </template>
 
 <script>
-    import { userRef } from "../middleware/firebase";
-    import { mapGetters } from 'vuex';
-    import ElButton from "element-ui/packages/button/src/button";
-    import ElCard from "element-ui/packages/card/src/main";
+  import {userRef} from "../middleware/firebase";
+  import {mapGetters} from 'vuex';
+  import ElButton from "element-ui/packages/button/src/button";
+  import ElCard from "element-ui/packages/card/src/main";
 
-    export default {
+  export default {
       components: {
         ElCard,
         ElButton},
       name: "add-connections",
       computed: {
         ...mapGetters([
-          'getUserIds',
+          'getUserId',
+          'getFriendIds'
         ]),
+        getUserIds() {
+          return [...this.getFriendIds, this.getUserId];
+        },
         connections() {
           return this.users.filter((user) => this.getUserIds.indexOf(user['.key']) === -1);
         },
@@ -48,7 +52,7 @@
       },
       methods: {
         addConnection(uid) {
-          this.$store.commit('addConnection', uid);
+          this.$store.commit('addFriend', uid);
         }
       },
     }
