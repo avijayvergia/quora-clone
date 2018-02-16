@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import { postsRef, postStorageRef } from "../middleware/firebase";
+  import {postsRef, postStorageRef} from "../middleware/firebase";
 
-export default {
+  export default {
   name: "component-dialog",
   props: {
     post: {
@@ -36,7 +36,8 @@ export default {
         userID: "100",
         date: "10/05/1996"
       },
-      type: Object
+      type: Object,
+      required: false,
     },
     actionToPerform: { default: "", type: String },
     dialogVisible: { type: Boolean, required: true }

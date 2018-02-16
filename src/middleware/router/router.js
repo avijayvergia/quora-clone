@@ -13,11 +13,14 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
     let currentUser = Firebase.auth().currentUser;
     let requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
     if (requiresAuth && !currentUser) {
       next('login');
+    } else if (!requiresAuth){
+      next();
     }
     else {
-      if (store.state.userInfo.key.length === 0) {
+      if (store.state.userId.length === 0) {
         userRef.child(currentUser.uid).once('value').then((snapshot) => {
           store.commit('setUser', {data: snapshot.val(), uid: currentUser.uid});
         });
