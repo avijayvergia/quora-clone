@@ -32,7 +32,8 @@
 </template>
 
 <script>
-  import { Firebase, userRef } from "../middleware/firebase";
+  import {Firebase, userRef} from "../middleware/firebase";
+
   export default {
     name: "signUp",
     data() {
@@ -43,9 +44,7 @@
           lastName: "",
           dateOfBirth: "",
           email: "",
-          password: "",
           sex: "",
-          friends: false,
         }
       };
     },
@@ -58,6 +57,7 @@
           )
           .then(
             user => {
+              delete this.userInfo.password;
               userRef.child(user.uid).set(this.userInfo);
               this.$router.replace('feeds');
             },

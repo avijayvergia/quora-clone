@@ -5,7 +5,7 @@
      <el-input placeholder="Email" v-model="email" clearable>
     </el-input>
     <p></p>
-    <el-input placeholder="Password" v-model="password" clearable>
+    <el-input placeholder="Password" v-model="password" type="password" clearable>
       </el-input>
     <p></p>
     <el-button type="success" v-on:click="signIn">Log In</el-button>
@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import { Firebase } from "../middleware/firebase";
+  import {Firebase} from "../middleware/firebase";
 
-var provider = new Firebase.auth.GoogleAuthProvider();
+  const provider = new Firebase.auth.GoogleAuthProvider();
 
 export default {
   name: "login",
@@ -47,9 +47,9 @@ export default {
       Firebase.auth()
         .signInWithPopup(provider)
         .then(function(result) {
-          var token = result.credential.accessToken;
+          const token = result.credential.accessToken;
           this.$router.replace("feeds");
-          var user = result.user;
+          const user = result.user;
         })
         .catch(function(error) {
           alert("Oops. " + error.message);

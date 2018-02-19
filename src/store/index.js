@@ -1,13 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { userRef } from "../middleware/firebase";
+import {userRef} from "../middleware/firebase";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     userInfo: {
-      key: '',
       firstName: '',
       lastName: '',
       sex: '',
@@ -17,16 +16,17 @@ const store = new Vuex.Store({
       imageUrl: (() => {
         return this.sex === 'M' ? require('@/assets/male.png') : require('@/assets/female.png');
       })()
-    }
+    },
+    userId: '',
   },
 
   mutations: {
     setUser (state, userInfo) {
       state.userInfo = userInfo.data;
-      state.userInfo.key = userInfo.uid;
+      state.userId = userInfo.uid;
     },
 
-    addConnection (state, uid) {
+    addFriend (state, uid) {
       const newConnection = {
         [uid]: true,
       };
@@ -37,19 +37,17 @@ const store = new Vuex.Store({
         state.userInfo.friends = newConnection;
       }
 
-      userRef.child(`${state.userInfo.key}/friends`).update(newConnection);
+      userRef.child(`${state.userId}/friends`).set(newConnection);
     }
   },
 
   getters: {
-    getUserIds: state => {
-      const usersList = [];
-      usersList.push(state.userInfo.key);
+    getUserId: state => {
+      return state.userId;
+    },
 
-      if (state.userInfo.friends) {
-        usersList.push(...Object.keys(state.userInfo.friends));
-      }
-      return usersList;
+    getFriendIds: state => {
+      return state.userInfo.friends ? Object.keys(state.userInfo.friends) : [];
     },
 
     getUserName: state => {

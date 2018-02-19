@@ -26,9 +26,9 @@ export default {
 
   &__name {
     margin-left: 10px;
-    margin-top: 15px;
+    margin-top: 10px;
     margin-bottom: 10px;
-    
+
   }
 }
 </style>

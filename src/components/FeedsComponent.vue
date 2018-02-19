@@ -8,56 +8,75 @@
 </template>
 
 <script>
-import { postsRef, userRef } from "../middleware/firebase";
-import PostTile from "./PostTile/PostTile";
-import { mapGetters } from 'vuex';
-import ComponentDialog from "./ComponentDialog";
+  import {userRef} from "../middleware/firebase";
+  import PostTile from "./PostTile/PostTile";
+  import {mapGetters} from 'vuex';
+  import ComponentDialog from "./ComponentDialog";
 
-export default {
-  components: {
-    PostTile,
-     ComponentDialog
-  },
-  name: "feeds-component",
-  computed: {
-    ...mapGetters([
-      'getUserIds',
-    ]),
-    filteredFeed() {
-      return this.posts.filter((post) => this.getUserIds.indexOf(post.userID) > -1);
+  export default {
+    components: {
+      PostTile,
+      ComponentDialog
     },
-    feed() {
-      this.filteredFeed.map(element => {
-        userRef
-          .orderByKey()
-          .equalTo(String(element.userID))
-          .on("child_added", snapshot => this.addUserInfo(element, snapshot));
-      });
-      return this.filteredFeed;
-    }
-  },
-  data() {
-    return {
-      dialogVisible: false
-    };
-  },
-  firebase: {
-    posts: postsRef,
-    users: userRef
-  },
-  methods: {
-    addUserInfo(object, item) {
-      object.userName = `${item.val().firstName} ${item.val().lastName}`;
-      object.userPic = item.val().picUrl;
-    }
-  }
-};
+    name: "feeds-component",
+    data() {
+      return {
+        dialogVisible: false,
+        feed: [],
+      };
+    },
+    computed: {
+      ...mapGetters([
+        'getFriendIds',
+        'getUserId',
+      ]),
+      getUserIds() {
+        return [...this.getFriendIds, this.getUserId];
+      },
+    },
+    watch: {
+      getUserIds: {
+        handler: function(userIds) {
+          this.fetchPosts(userIds);
+        },
+        immediate: true,
+      },
+    },
+    methods: {
+      fetchPosts(userIds) {
+        const posts = [];
+
+        userIds.forEach((id) => {
+            userRef.child(id).on('value', (snapshot) => {
+              const val = snapshot.val();
+              const name = `${val.firstName} ${val.lastName}`;
+              const dp = val.userPic;
+
+              const postObj = val.posts;
+              for (let key in postObj) {
+                const post = postObj[key];
+                post.key = key;
+                post.userName = name;
+                post.userPic = dp;
+                posts.push(post);
+              }
+            });
+          }
+        );
+
+        this.feed = posts;
+      }
+    },
+    firebase: {
+      users: userRef
+    },
+  };
 </script>
 
 <style scoped>
-#fixed-postButton {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-}
+  #fixed-postButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  }
 </style>
