@@ -14,63 +14,69 @@
   import ComponentDialog from "./ComponentDialog";
 
   export default {
-  components: {
-    PostTile,
-     ComponentDialog
-  },
-  name: "feeds-component",
-  computed: {
-    ...mapGetters([
-      'getFriendIds',
-      'getUserId',
-    ]),
-    getUserIds() {
-      return [...this.getFriendIds, this.getUserId];
+    components: {
+      PostTile,
+      ComponentDialog
     },
-    feed() {
-      const posts = [];
+    name: "feeds-component",
+    data() {
+      return {
+        dialogVisible: false,
+        feed: [],
+      };
+    },
+    computed: {
+      ...mapGetters([
+        'getFriendIds',
+        'getUserId',
+      ]),
+      getUserIds() {
+        return [...this.getFriendIds, this.getUserId];
+      },
+    },
+    watch: {
+      getUserIds: {
+        handler: function(userIds) {
+          this.fetchPosts(userIds);
+        },
+        immediate: true,
+      },
+    },
+    methods: {
+      fetchPosts(userIds) {
+        const posts = [];
 
-      this.getUserIds.forEach((id) =>
-        userRef.child(id).on('value', (snapshot) => {
-          const val = snapshot.val();
-          const name = `${val.firstName} ${val.lastName}`;
-          const dp = val.userPic;
+        userIds.forEach((id) => {
+            userRef.child(id).on('value', (snapshot) => {
+              const val = snapshot.val();
+              const name = `${val.firstName} ${val.lastName}`;
+              const dp = val.userPic;
 
-          const postObj = val.posts;
-          for (let key in postObj){
-            const post = postObj[key];
-            post.key = key;
-            post.userName = name;
-            post.userPic = dp;
-            posts.push(post);
+              const postObj = val.posts;
+              for (let key in postObj) {
+                const post = postObj[key];
+                post.key = key;
+                post.userName = name;
+                post.userPic = dp;
+                posts.push(post);
+              }
+            });
           }
-          // if (val.posts){
-          //   Object.values(val.posts).forEach((post) => {
-          //     post.userName = name;
-          //     post.userPic = dp;
-          //     posts.push(post);
-          //   });
-          // }
-        })
-      );
-      return posts;
+        );
+
+        this.feed = posts;
+      }
     },
-  },
-  data() {
-    return {
-      dialogVisible: false
-    };
-  },
-  firebase: {
-    users: userRef
-  },
-};
+    firebase: {
+      users: userRef
+    },
+  };
 </script>
 
 <style scoped>
-#fixed-postButton {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-}
+  #fixed-postButton {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  }
 </style>

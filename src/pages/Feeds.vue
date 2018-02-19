@@ -20,4 +20,8 @@
 </script>
 
 <style scoped lang="scss">
+  .feeds-page {
+    display: flex;
+    justify-content: space-between;
+  }
 </style>

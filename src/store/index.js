@@ -37,7 +37,7 @@ const store = new Vuex.Store({
         state.userInfo.friends = newConnection;
       }
 
-      userRef.child(`${state.userId}/friends`).update(newConnection);
+      userRef.child(`${state.userId}/friends`).set(newConnection);
     }
   },
 

@@ -60,7 +60,6 @@
 
 <style lang="scss" scoped>
 .connections {
-  width: 30%;
   margin: 5px auto;
 }
 </style>
