@@ -6,7 +6,7 @@
       </div>
       <div class="tile__body">
         <hr>
-        <img :src="post.imageUrl" style="width: 100%; height: 100%" v-if="post.imageUrl">
+        <img :src="post.imageUrl" style="margin: auto" v-if="post.imageUrl">
         <p>{{post.content}}</p>
       </div>
       <div class="like-section">
@@ -94,6 +94,8 @@
 
     &__body {
       margin-top: 50px;
+      display: flex;
+      flex-direction: column;
     }
   }
 </style>

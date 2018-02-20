@@ -14,6 +14,7 @@ const db = app.database();
 
 const postsRef = db.ref('posts');
 const userRef = db.ref('users');
+const commentsRef = db.ref('comments');
 const postStorageRef = app
 .storage()
 .ref().child('Posts');
@@ -22,5 +23,6 @@ export {
   postsRef,
   userRef,
   postStorageRef,
-  Firebase
+  Firebase,
+  commentsRef
 }
