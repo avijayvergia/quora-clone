@@ -1,7 +1,7 @@
 <template>
   <div v-if="post.userName">
-    <el-card class="tile">
-      <div>
+      <el-card class="tile">
+        <div>
         <post-tile-header :userInfo="userInfo" @action="trigger" />
       </div>
       <div class="tile__body">
@@ -27,7 +27,7 @@
         <el-collapse-item title="Comments">
           <div>
             <ul>
-            <li v-for="el in comments">
+            <li v-for="el in comments" :key="el.key">
               {{el.comment}}
             </li>
           </ul>
@@ -36,7 +36,6 @@
         </el-collapse-item>
       </el-collapse>
     </el-card>
-
     <component-dialog :post="editPost" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible" v-if="dialogVisible">
     </component-dialog>
   </div>
@@ -114,9 +113,9 @@ export default {
 
 <style scoped lang="scss">
 .tile {
-  margin: 5px auto;
+  margin: 10px auto;
   font-family: "Roboto", sans-serif;
-  width: 40%;
+  width: 30%;
 
   &__body {
     margin-top: 50px;

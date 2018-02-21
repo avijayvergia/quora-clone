@@ -2,9 +2,9 @@
   <div class="connections">
     <el-card>
       <tr>
-        <th>Add Friends: </th>
+        <h3>Add Friends: </h3>
       </tr>
-      <tr v-for="connection in connectionNames">
+      <tr v-for="connection in connectionNames" :key="connection.key">
         <td>{{connection.userName}}</td>
         <td><el-button @click="addConnection(connection.userId)"></el-button></td>
       </tr>

@@ -22,18 +22,17 @@
 
 <style lang="scss" scoped>
   .page-layout {
-    height: 100vh;
     display: flex;
+    flex-direction: column;
 
     &__sidebar {
-      min-width: 200px;
-      flex: 1;
       margin-left: -10px;
       margin-top: -10px;
     }
 
-    &__content {
-      flex: 8;
+    &__content{
+      margin-top: 50px
     }
+
   }
 </style>

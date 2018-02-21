@@ -1,9 +1,15 @@
 <template>
+  
   <div>
-    <post-tile v-for="post in feed" :post="post" :key="post.id"></post-tile>
+    <el-card class = "new-style"></el-card>
+    <div class ="adapt-new"><post-tile v-for="post in feed" :post="post" :key="post.id"></post-tile></div>
     <component-dialog :dialog-visible.sync="dialogVisible">
     </component-dialog>
-    <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit" id="fixed-postButton">POST</el-button>
+    
+    <div id="fixed-postButton">
+        <add-connections/>
+        <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit" >POST</el-button>
+    </div>
   </div>
 </template>
 
@@ -12,9 +18,11 @@ import { userRef, commentsRef } from "../middleware/firebase";
 import PostTile from "./PostTile/PostTile";
 import { mapGetters } from "vuex";
 import ComponentDialog from "./ComponentDialog";
+import AddConnections from "../components/AddConnections";
 
 export default {
   components: {
+     AddConnections,
     PostTile,
     ComponentDialog
   },
@@ -26,8 +34,8 @@ export default {
     };
   },
   props: {
-    count:{
-      required: true,
+    count: {
+      required: true
     }
   },
   computed: {
@@ -82,8 +90,23 @@ export default {
 
 <style scoped>
 #fixed-postButton {
+  font-family: "Roboto", sans-serif;
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+}
+
+.new-style {
+  height: 400px;
+  font-family: "Roboto", sans-serif;
+  background-image: linear-gradient(222deg,#ff272d 0,#c42482 33%,#ab217f 47%,#671878 84%,#4a1475 100%);
+  background-color: #c42482;
+}
+
+.adapt-new {
+  margin: -360px;
+  display: flex;
+  flex-direction: column
 }
 </style>
