@@ -25,6 +25,11 @@ export default {
       feed: []
     };
   },
+  props: {
+    count:{
+      required: true,
+    }
+  },
   computed: {
     ...mapGetters(["getFriendIds", "getUserId"]),
     getUserIds() {
@@ -41,29 +46,32 @@ export default {
   },
   methods: {
     fetchPosts(userIds) {
+      console.log(Date.now());
       const posts = [];
-
+      console.log(userIds);
       userIds.forEach(id => {
-        userRef.child(id).on("value", snapshot => {
-          const val = snapshot.val();
+        new Promise((resolve, reject) => {
+          userRef.child(id).on("value", snapshot => {
+            if (snapshot.val()) {
+              resolve(snapshot.val());
+            }
+          });
+        }).then(val => {
           const name = `${val.firstName} ${val.lastName}`;
           const dp = val.userPic;
 
           const postObj = val.posts;
           for (let key in postObj) {
-            
-          
-              const post = postObj[key];
-              post.key = key;
-              post.userName = name;
-              post.userPic = dp;
-              posts.push(post);
-         
+            const post = postObj[key];
+            post.key = key;
+            post.userName = name;
+            post.userPic = dp;
+            posts.push(post);
           }
+          console.log(posts);
+          this.feed = posts;
         });
       });
-      console.log(posts);
-      this.feed = posts;
     }
   },
   firebase: {

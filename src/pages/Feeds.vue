@@ -1,6 +1,6 @@
 <template>
   <div class="feeds-page">
-    <feeds-component></feeds-component>
+    <feeds-component :count="count"></feeds-component>
     <add-connections/>
   </div>
 </template>
@@ -16,6 +16,11 @@
       FeedsComponent
     },
     name: "feeds",
+    data() {
+      return {
+        count: 0,
+      }
+    }
   }
 </script>
 

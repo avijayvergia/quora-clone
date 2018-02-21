@@ -25,7 +25,14 @@
       </div>
       <el-collapse>
         <el-collapse-item title="Comments">
-          <div>The first comment!!</div>
+          <div>
+            <ul>
+            <li v-for="el in comments">
+              {{el.comment}}
+            </li>
+          </ul>
+          </div>
+          
         </el-collapse-item>
       </el-collapse>
     </el-card>
@@ -36,10 +43,11 @@
 </template>
 
 <script>
-  import PostTileHeader from "./PostTileHeader";
-  import ComponentDialog from "../ComponentDialog";
+import PostTileHeader from "./PostTileHeader";
+import ComponentDialog from "../ComponentDialog";
+import { commentsRef } from "../../middleware/firebase";
 
-  export default {
+export default {
   components: {
     PostTileHeader,
     ComponentDialog
@@ -59,14 +67,15 @@
   data() {
     return {
       dialogVisible: false,
-      actionToPerform: '',
+      actionToPerform: "",
       editPost: null,
+      comments: []
     };
   },
   methods: {
     trigger(action) {
       this.dialogVisible = true;
-      this.editPost = {...this.post};
+      this.editPost = { ...this.post };
       this.actionToPerform = action;
     },
     like(post) {
@@ -81,21 +90,38 @@
       const copy = { ...this.post };
       delete copy[".key"];
       postsRef.child(String(this.post[".key"])).set(copy);
+    },
+    getComments() {
+      new Promise((resolve, reject) => {
+        commentsRef.child(this.post.key).on("value", snapshot => {
+          if (snapshot.val()) {
+            resolve(Object.values(snapshot.val()));
+          }
+        });
+      }).then(val => {
+        for (let comment of val) {
+          this.comments.push(comment);
+        }
+        console.log(this.comments);
+      });
     }
   },
+  created() {
+    this.getComments();
+  }
 };
 </script>
 
 <style scoped lang="scss">
-  .tile {
-    margin: 5px auto;
-    font-family: "Roboto", sans-serif;
-    width: 40%;
+.tile {
+  margin: 5px auto;
+  font-family: "Roboto", sans-serif;
+  width: 40%;
 
-    &__body {
-      margin-top: 50px;
-      display: flex;
-      flex-direction: column;
-    }
+  &__body {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
   }
+}
 </style>
