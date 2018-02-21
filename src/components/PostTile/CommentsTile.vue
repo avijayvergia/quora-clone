@@ -21,6 +21,7 @@
 
 <script>
 import { commentsRef } from "../../middleware/firebase";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -36,6 +37,9 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapGetters(["getUserId"])
+  },
   methods: {
     getComments() {
       new Promise((resolve, reject) => {
@@ -48,16 +52,18 @@ export default {
         for (let comment of val) {
           this.comments.push(comment);
         }
+        
       });
     },
     postComment() {
       if (this.userComment != "") {
         let commentObj = {
-          comment: this.userComment
+          comment: this.userComment,
+          userId: this.getUserId
         };
         if (this.comments.length != 0) this.comments.push(commentObj);
         commentsRef.child(this.userKey).push(commentObj);
-        console.log(this.comments);
+        this.userComment = "";
       }
     }
   },

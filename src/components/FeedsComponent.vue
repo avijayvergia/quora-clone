@@ -22,7 +22,7 @@ import AddConnections from "../components/AddConnections";
 
 export default {
   components: {
-     AddConnections,
+    AddConnections,
     PostTile,
     ComponentDialog
   },
@@ -95,18 +95,26 @@ export default {
   bottom: 20px;
   right: 20px;
   display: flex;
+  flex-direction: column;
 }
 
 .new-style {
   height: 400px;
   font-family: "Roboto", sans-serif;
-  background-image: linear-gradient(222deg,#ff272d 0,#c42482 33%,#ab217f 47%,#671878 84%,#4a1475 100%);
+  background-image: linear-gradient(
+    222deg,
+    #ff272d 0,
+    #c42482 33%,
+    #ab217f 47%,
+    #671878 84%,
+    #4a1475 100%
+  );
   background-color: #c42482;
 }
 
 .adapt-new {
   margin: -360px;
   display: flex;
-  flex-direction: column
+  flex-direction: column;
 }
 </style>

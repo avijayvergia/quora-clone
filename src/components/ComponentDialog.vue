@@ -75,6 +75,7 @@
             });
             break;
           case "":
+          this.post.userID = this.getUserId;
             userRef.child(this.getUserId).child('posts').push(this.post);
             this.$notify({
               title: "Success",
