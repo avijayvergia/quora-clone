@@ -1,7 +1,7 @@
 <template>
   <div v-if="post.userName">
-      <el-card class="tile">
-        <div>
+    <el-card class="tile">
+      <div>
         <post-tile-header :userInfo="userInfo" @action="trigger" />
       </div>
       <div class="tile__body">
@@ -9,30 +9,21 @@
         <img :src="post.imageUrl" style="margin: auto" v-if="post.imageUrl">
         <p>{{post.content}}</p>
       </div>
-      <div class="like-section">
-        <p></p>
-        <el-row :gutter="20" type="flex">
-          <el-col @click="like(post)">
-            <i class="el-icon-arrow-up"></i>
-            <span>{{post.likes}}</span>
-          </el-col>
-          <el-col @click="dislike(post)">
-            <i class="el-icon-arrow-down"></i>
-            <span>{{post.dislike}}</span>
-          </el-col>
-        </el-row>
-        <p></p>
+
+      <div style="display: flex">
+        <el-input placeholder="Add comment" prefix-icon="el-icon-edit" v-model="userComment">
+        </el-input>
+        <el-button icon="el-icon-d-arrow-right" @click="postComment()"></el-button>
       </div>
       <el-collapse>
         <el-collapse-item title="Comments">
           <div>
             <ul>
-            <li v-for="el in comments" :key="el.key">
-              {{el.comment}}
-            </li>
-          </ul>
+              <li v-for="el in comments" :key="el.key">
+                {{el.comment}}
+              </li>
+            </ul>
           </div>
-          
         </el-collapse-item>
       </el-collapse>
     </el-card>
@@ -63,12 +54,20 @@ export default {
       };
     }
   },
+  watch: {
+    comments: {
+      handler: function(val, oldVal) {
+        console.log("Comments Array changed");
+      }
+    }
+  },
   data() {
     return {
       dialogVisible: false,
       actionToPerform: "",
       editPost: null,
-      comments: []
+      comments: [],
+      userComment: ""
     };
   },
   methods: {
@@ -76,19 +75,6 @@ export default {
       this.dialogVisible = true;
       this.editPost = { ...this.post };
       this.actionToPerform = action;
-    },
-    like(post) {
-      //TODO: Add like and dislike comments
-      post.likes++;
-      const copy = { ...this.post };
-      delete copy[".key"];
-      postsRef.child(String(this.post[".key"])).set(copy);
-    },
-    dislike(post) {
-      post.dislike++;
-      const copy = { ...this.post };
-      delete copy[".key"];
-      postsRef.child(String(this.post[".key"])).set(copy);
     },
     getComments() {
       new Promise((resolve, reject) => {
@@ -101,8 +87,17 @@ export default {
         for (let comment of val) {
           this.comments.push(comment);
         }
-        console.log(this.comments);
       });
+    },
+    postComment() {
+      if (this.userComment != "") {
+        let commentObj = {
+          comment: this.userComment
+        };
+        if (this.comments.length != 0) this.comments.push(commentObj);
+        commentsRef.child(this.post.key).push(commentObj);
+        console.log(this.comments);
+      }
     }
   },
   created() {

@@ -1,7 +1,6 @@
 <template>
-  <div class="feeds-page">
+  <div>
     <feeds-component :count="count"></feeds-component>
-    
   </div>
 </template>
 
