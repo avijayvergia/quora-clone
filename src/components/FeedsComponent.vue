@@ -41,7 +41,7 @@ import AddConnections from "../components/AddConnections";
     },
     watch: {
       getAllIds: {
-        handler: function(userIds) {
+        handler: function (userIds) {
           this.fetchPosts(userIds);
         },
         immediate: true,
@@ -49,28 +49,30 @@ import AddConnections from "../components/AddConnections";
     },
     methods: {
       fetchPosts(userIds) {
-        const posts = [];
+        userRef.on('value', () => {
+          this.feed = [];
+          userIds.forEach((id) => {
+            this.getPostsFromFirebase(id);
+          });
+        });
+      },
 
-        userIds.forEach((id) => {
-            userRef.child(id).on('value', (snapshot) => {
-              const val = snapshot.val();
-              const name = `${val.firstName} ${val.lastName}`;
-              const dp = val.userPic;
+      getPostsFromFirebase(id) {
+        userRef.child(id).on('value', (snapshot) => {
+          const val = snapshot.val();
+          const name = `${val.firstName} ${val.lastName}`;
+          const dp = val.userPic;
 
-              const postObj = val.posts;
-              for (let key in postObj) {
-                const post = postObj[key];
-                post.key = key;
-                post.userName = name;
-                post.userPic = dp;
-                posts.push(post);
-              }
-            });
+          const postObj = val.posts;
+          for (let key in postObj) {
+            const post = postObj[key];
+            post.key = key;
+            post.userName = name;
+            post.userPic = dp;
+            this.feed.push(post);
           }
-        );
-
-        this.feed = posts;
-      }
+        });
+      },
     },
     firebase: {
       users: userRef
