@@ -27,15 +27,11 @@
     },
     computed: {
       ...mapGetters([
-        'getFriendIds',
-        'getUserId',
+        'getAllIds',
       ]),
-      getUserIds() {
-        return [...this.getFriendIds, this.getUserId];
-      },
     },
     watch: {
-      getUserIds: {
+      getAllIds: {
         handler: function(userIds) {
           this.fetchPosts(userIds);
         },

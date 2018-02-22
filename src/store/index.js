@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {userRef} from "../middleware/firebase";
 
 Vue.use(Vuex);
 
@@ -27,17 +26,13 @@ const store = new Vuex.Store({
     },
 
     addFriend (state, uid) {
-      const newConnection = {
-        [uid]: true,
-      };
-
       if (state.userInfo.friends) {
         Vue.set(state.userInfo.friends, uid, true);
       } else {
-        state.userInfo.friends = newConnection;
+        state.userInfo.friends = {
+          [uid]: true,
+        };
       }
-
-      userRef.child(`${state.userId}/friends`).set(newConnection);
     }
   },
 
@@ -48,6 +43,16 @@ const store = new Vuex.Store({
 
     getFriendIds: state => {
       return state.userInfo.friends ? Object.keys(state.userInfo.friends) : [];
+    },
+
+    getAllIds: (state, getters) => {
+      const ids = [];
+
+      ids.push(getters.getUserId);
+      ids.push(...getters.getFriendIds);
+
+      return ids;
+
     },
 
     getUserName: state => {
