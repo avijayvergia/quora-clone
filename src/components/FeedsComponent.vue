@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import { userRef, commentsRef } from "../middleware/firebase";
-import PostTile from "./PostTile/PostTile";
-import { mapGetters } from "vuex";
-import ComponentDialog from "./ComponentDialog";
-import AddConnections from "../components/AddConnections";
+  import {userRef} from "../middleware/firebase";
+  import PostTile from "./PostTile/PostTile";
+  import {mapGetters} from "vuex";
+  import ComponentDialog from "./ComponentDialog";
+  import AddConnections from "../components/AddConnections";
 
   export default {
     components: {
@@ -49,28 +49,24 @@ import AddConnections from "../components/AddConnections";
     },
     methods: {
       fetchPosts(userIds) {
-        userRef.on('value', () => {
-          this.feed = [];
-          userIds.forEach((id) => {
-            this.getPostsFromFirebase(id);
+        userIds.forEach((id) => {
+          new Promise ((resolve) => {
+            userRef.child(id).once('value').then((snapshot) => {
+              const val = snapshot.val();
+              const name = `${val.firstName} ${val.lastName}`;
+              const dp = val.userPic;
+              resolve({name, dp});
+            })
+          })
+        .then((userObj) => {
+          userRef.child(`${id}/posts`).on('child_added', (snapshot) => {
+            const postObj = snapshot.val();
+            postObj.key = snapshot.key;
+            postObj.userName = userObj.name;
+            postObj.userPic = userObj.dp;
+            this.feed.push(postObj);
           });
         });
-      },
-
-      getPostsFromFirebase(id) {
-        userRef.child(id).on('value', (snapshot) => {
-          const val = snapshot.val();
-          const name = `${val.firstName} ${val.lastName}`;
-          const dp = val.userPic;
-
-          const postObj = val.posts;
-          for (let key in postObj) {
-            const post = postObj[key];
-            post.key = key;
-            post.userName = name;
-            post.userPic = dp;
-            this.feed.push(post);
-          }
         });
       },
     },
