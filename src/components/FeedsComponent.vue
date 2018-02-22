@@ -49,6 +49,8 @@
     },
     methods: {
       fetchPosts(userIds) {
+        this.feed = [];
+
         userIds.forEach((id) => {
           new Promise ((resolve) => {
             userRef.child(id).once('value').then((snapshot) => {
