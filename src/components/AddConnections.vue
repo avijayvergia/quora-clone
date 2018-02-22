@@ -25,14 +25,11 @@
       name: "add-connections",
       computed: {
         ...mapGetters([
-          'getUserId',
-          'getFriendIds'
+          'getAllIds',
+          'getUserId'
         ]),
-        getUserIds() {
-          return [...this.getFriendIds, this.getUserId];
-        },
         connections() {
-          return this.users.filter((user) => this.getUserIds.indexOf(user['.key']) === -1);
+          return this.users.filter((user) => this.getAllIds.indexOf(user['.key']) === -1);
         },
         connectionNames() {
           const newConns = [];
@@ -52,7 +49,7 @@
       },
       methods: {
         addConnection(uid) {
-          this.$store.commit('addFriend', uid);
+            userRef.child(`${this.getUserId}/friends`).update({[uid]: true}, () => this.$store.commit('addFriend', uid));
         }
       },
     }
