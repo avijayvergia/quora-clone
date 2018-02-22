@@ -1,6 +1,6 @@
 <template>
-  
-  <div>
+  <el-badge>
+ <div>
     <el-card class = "new-style"></el-card>
     <div class ="adapt-new"><post-tile v-for="post in feed" :post="post" :key="post.id"></post-tile></div>
     <component-dialog :dialog-visible.sync="dialogVisible">
@@ -11,6 +11,8 @@
         <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit" >POST</el-button>
     </div>
   </div>
+  </el-badge>
+ 
 </template>
 
 <script>
@@ -111,7 +113,6 @@ export default {
   );
   background-color: #c42482;
 }
-
 .adapt-new {
   margin: -360px;
   display: flex;

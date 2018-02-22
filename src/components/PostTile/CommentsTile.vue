@@ -7,6 +7,7 @@
       </div>
       <el-collapse>
         <el-collapse-item title="Comments">
+          
           <div>
             <ul>
               <li v-for="el in comments" :key="el.key">
