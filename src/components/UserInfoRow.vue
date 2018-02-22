@@ -1,8 +1,8 @@
 <template>
   <div class="user-info">
-    <img :src="userInfo.userImage" width="40px" height="40px"/>
+    <img :src="userInfo.userPic" width="40px" height="40px"/>
     <div class="user-info__name">
-     {{userInfo.name}}
+     {{userInfo.userName}}
     </div>
   </div>
 </template>
