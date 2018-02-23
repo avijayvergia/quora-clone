@@ -12,7 +12,7 @@ const store = new Vuex.Store({
       email: '',
       dateOfBirth: '',
       friends: null,
-      imageUrl: (() => {
+      userPic: (() => {
         return this.sex === 'M' ? require('@/assets/male.png') : require('@/assets/female.png');
       })()
     },
@@ -37,6 +37,14 @@ const store = new Vuex.Store({
   },
 
   getters: {
+    getUserInfo: state => {
+      return {
+        userId: state.userId,
+        userName: `${state.userInfo.firstName} ${state.userInfo.lastName}`,
+        userPic: state.userInfo.userPic,
+      };
+    },
+
     getUserId: state => {
       return state.userId;
     },
