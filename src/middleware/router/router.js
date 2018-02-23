@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
     }
     else {
       if (store.state.userId.length === 0) {
-          userRef.child(currentUser.uid).on('value', (snapshot) => {
+          userRef.child(currentUser.uid).once('value').then((snapshot) => {
             store.commit('setUser', {data: snapshot.val(), uid: currentUser.uid});
             next();
           });
