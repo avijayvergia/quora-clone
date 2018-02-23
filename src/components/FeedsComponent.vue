@@ -8,7 +8,6 @@
     <component-dialog :dialog-visible.sync="dialogVisible" :userInfo="getUserInfo">
     </component-dialog>
     <div id="fixed-postButton">
-      <add-connections/>
       <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit">POST</el-button>
     </div>
   </div>
@@ -33,6 +32,7 @@
       return {
         dialogVisible: false,
         feed: [],
+        allUsersInfo: {},
       };
     },
     computed: {
@@ -41,42 +41,41 @@
         'getUserInfo',
       ]),
     },
-    watch: {
-      getAllIds: {
-        handler: function (userIds) {
-          this.fetchPosts(userIds);
-        },
-        immediate: true,
-      },
-    },
     methods: {
-      fetchPosts(userIds) {
-        this.feed = [];
-
-        userIds.forEach((id) => {
-          new Promise((resolve) => {
-            userRef.child(id).once('value').then((snapshot) => {
-              const val = snapshot.val();
-              const name = `${val.firstName} ${val.lastName}`;
-              const dp = val.userPic;
-              resolve({name, dp});
-            })
-          })
-            .then((userObj) => {
+      fetchPosts() {
+        Object.keys(this.allUsersInfo).forEach((id) => {
               userRef.child(`${id}/posts`).on('child_added', (snapshot) => {
                 const postObj = snapshot.val();
                 postObj.key = snapshot.key;
-                postObj.userName = userObj.name;
-                postObj.userPic = userObj.dp;
+                postObj.userName = this.allUsersInfo[id].userName;
+                postObj.userPic = this.allUsersInfo[id].userPic;
                 this.feed.push(postObj);
               });
             });
-        });
       },
+      loadData() {
+        const promises = [];
+
+        this.getAllIds.forEach((id) => {
+          promises.push(userRef.child(id).once('value').then((snapshot) => {
+            const val = snapshot.val();
+            const name = `${val.firstName} ${val.lastName}`;
+            const dp = val.userPic;
+            this.allUsersInfo[id] = {
+              userName: name,
+              userPic: dp,
+            };
+          }));
+        });
+        Promise.all(promises).then(() => this.fetchPosts());
+      }
     },
     firebase: {
       users: userRef
     },
+    created() {
+      this.loadData();
+    }
   };
 </script>
 

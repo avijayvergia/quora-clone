@@ -73,6 +73,7 @@
               type: "success"
             });
             break;
+          // TODO: Work on edit and delete!
           case "Delete Post":
             userRef.child(`${this.getUserId}/posts/${this.post["key"]}`).remove();
             this.$notify({
