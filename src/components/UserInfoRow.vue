@@ -1,11 +1,11 @@
 <template>
   <el-row class="user-info">
     <el-col span=2>
-          <img :src="userInfo.userImage" width="30px" height="30px"/>
+          <img :src="userInfo.userPic" width="30px" height="30px"/>
     </el-col>
     <el-col span=22>
       <div class="user-info__name">
-        <span><strong>{{userInfo.name}}</strong></span>
+        <span><strong>{{userInfo.userName}}</strong></span>
         <span>{{comment}}</span>
       </div>
     </el-col>

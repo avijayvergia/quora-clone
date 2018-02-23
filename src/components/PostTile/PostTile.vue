@@ -11,17 +11,18 @@
       </div>
       <comments-tile :postKey="post.key"/>
     </el-card>
-    <component-dialog :post="editPost" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible" v-if="dialogVisible">
+    <component-dialog :post="editPost" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible" v-if="dialogVisible" :user-info="myUserInfo">
     </component-dialog>
   </div>
 </template>
 
 <script>
-import PostTileHeader from "./PostTileHeader";
-import ComponentDialog from "../ComponentDialog";
-import CommentsTile from "./CommentsTile";
+  import PostTileHeader from "./PostTileHeader";
+  import ComponentDialog from "../ComponentDialog";
+  import CommentsTile from "./CommentsTile";
+  import {mapGetters} from 'vuex';
 
-export default {
+  export default {
   components: {
     PostTileHeader,
     ComponentDialog,
@@ -34,10 +35,14 @@ export default {
   computed: {
     userInfo() {
       return {
-        name: this.post.userName,
-        userImage: this.post.userPic
+        userName: this.post.userName,
+        userPic: this.post.userPic,
+        userId: this.post.userID,
       };
-    }
+    },
+    ...mapGetters({
+      myUserInfo: 'getUserInfo',
+    })
   },
   data() {
     return {
@@ -48,10 +53,18 @@ export default {
   },
   methods: {
     trigger(action) {
-      this.dialogVisible = true;
-      this.editPost = { ...this.post };
-      this.actionToPerform = action;
-    }
+      if (this.myUserInfo.userId === this.userInfo.userId){
+        this.editPost = { ...this.post };
+        this.actionToPerform = action;
+        this.dialogVisible = true;
+      } else {
+        this.$notify({
+          title: 'Unauthorized Action!',
+          message: 'You are not allowed to perform this action.',
+          type: 'error',
+        });
+      }
+    },
   }
 };
 </script>

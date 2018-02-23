@@ -1,42 +1,52 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     userInfo: {
-      firstName: '',
-      lastName: '',
-      sex: '',
-      email: '',
-      dateOfBirth: '',
+      firstName: "",
+      lastName: "",
+      sex: "",
+      email: "",
+      dateOfBirth: "",
       friends: null,
-      imageUrl: (() => {
-        return this.sex === 'M' ? require('@/assets/male.png') : require('@/assets/female.png');
-      })()
+      userPic: ""
     },
-    userId: '',
+    userId: ""
   },
 
   mutations: {
-    setUser (state, userInfo) {
+    setUser(state, userInfo) {
       state.userInfo = userInfo.data;
       state.userId = userInfo.uid;
     },
 
-    addFriend (state, uid) {
+    addFriend(state, uid) {
       if (state.userInfo.friends) {
         Vue.set(state.userInfo.friends, uid, true);
       } else {
         state.userInfo.friends = {
-          [uid]: true,
+          [uid]: true
         };
       }
     }
   },
 
   getters: {
+    getUserInfo: state => {
+      return {
+        userId: state.userId,
+        userName: `${state.userInfo.firstName} ${state.userInfo.lastName}`,
+        userPic: state.userInfo.userPic
+      };
+    },
+
+    getUser: state => {
+      return state.userInfo;
+    },
+
     getUserId: state => {
       return state.userId;
     },
@@ -52,7 +62,6 @@ const store = new Vuex.Store({
       ids.push(...getters.getFriendIds);
 
       return ids;
-
     },
 
     getUserName: state => {

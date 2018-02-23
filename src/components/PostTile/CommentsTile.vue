@@ -6,7 +6,7 @@
         <el-button icon="el-icon-d-arrow-right" @click="postComment()"></el-button>
       </div>
       <el-collapse>
-        <el-collapse-item title="Comments">          
+        <el-collapse-item title="Comments">
           <div v-for="el in comments" :key="el.key">
              <user-info-row :userInfo="users[el.userId]" :comment="el.comment"></user-info-row>
           </div>
@@ -58,8 +58,8 @@ export default {
               .then(snapshot => {
                 const val = snapshot.val();
                 const tempObj = {
-                  name: `${val.firstName} ${val.lastName}`,
-                  userImage: val.userPic
+                  userName: `${val.firstName} ${val.lastName}`,
+                  userPic: val.userPic
                 };
                 this.users[comment.userId] = tempObj;
               });

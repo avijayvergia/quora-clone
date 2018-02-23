@@ -1,14 +1,15 @@
 <template>
 
- <div>
-    <el-card class = "new-style"></el-card>
-    <div class ="adapt-new"><post-tile v-for="post in feed" :post="post" :key="post.id"></post-tile></div>
-    <component-dialog :dialog-visible.sync="dialogVisible">
+  <div>
+    <el-card class="new-style"></el-card>
+    <div class="adapt-new">
+      <post-tile v-for="post in feed" :post="post" :key="post.id"></post-tile>
+    </div>
+    <component-dialog :dialog-visible.sync="dialogVisible" :userInfo="getUserInfo">
     </component-dialog>
-
     <div id="fixed-postButton">
-        <add-connections/>
-        <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit" >POST</el-button>
+      <add-connections/>
+      <el-button type="primary" @click="dialogVisible = true" icon="el-icon-edit">POST</el-button>
     </div>
   </div>
 
@@ -37,6 +38,7 @@
     computed: {
       ...mapGetters([
         'getAllIds',
+        'getUserInfo',
       ]),
     },
     watch: {
@@ -52,7 +54,7 @@
         this.feed = [];
 
         userIds.forEach((id) => {
-          new Promise ((resolve) => {
+          new Promise((resolve) => {
             userRef.child(id).once('value').then((snapshot) => {
               const val = snapshot.val();
               const name = `${val.firstName} ${val.lastName}`;
@@ -60,15 +62,15 @@
               resolve({name, dp});
             })
           })
-        .then((userObj) => {
-          userRef.child(`${id}/posts`).on('child_added', (snapshot) => {
-            const postObj = snapshot.val();
-            postObj.key = snapshot.key;
-            postObj.userName = userObj.name;
-            postObj.userPic = userObj.dp;
-            this.feed.push(postObj);
-          });
-        });
+            .then((userObj) => {
+              userRef.child(`${id}/posts`).on('child_added', (snapshot) => {
+                const postObj = snapshot.val();
+                postObj.key = snapshot.key;
+                postObj.userName = userObj.name;
+                postObj.userPic = userObj.dp;
+                this.feed.push(postObj);
+              });
+            });
         });
       },
     },
@@ -79,31 +81,32 @@
 </script>
 
 <style scoped>
-#fixed-postButton {
-  font-family: "Roboto", sans-serif;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column;
-}
+  #fixed-postButton {
+    font-family: "Roboto", sans-serif;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+  }
 
-.new-style {
-  height: 400px;
-  font-family: "Roboto", sans-serif;
-  background-image: linear-gradient(
-    222deg,
-    #ff272d 0,
-    #c42482 33%,
-    #ab217f 47%,
-    #671878 84%,
-    #4a1475 100%
-  );
-  background-color: #c42482;
-}
-.adapt-new {
-  margin: -360px;
-  display: flex;
-  flex-direction: column;
-}
+  .new-style {
+    height: 400px;
+    font-family: "Roboto", sans-serif;
+    background-image: linear-gradient(
+      222deg,
+      #ff272d 0,
+      #c42482 33%,
+      #ab217f 47%,
+      #671878 84%,
+      #4a1475 100%
+    );
+    background-color: #c42482;
+  }
+
+  .adapt-new {
+    margin: -360px;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
