@@ -15,51 +15,51 @@
 </template>
 
 <script>
-  import {userRef} from "../middleware/firebase";
-  import PostTile from "./PostTile/PostTile";
-  import {mapGetters} from "vuex";
-  import ComponentDialog from "./ComponentDialog";
-  import AddConnections from "../components/AddConnections";
+import { userRef } from "../middleware/firebase";
+import PostTile from "./PostTile/PostTile";
+import { mapGetters } from "vuex";
+import ComponentDialog from "./ComponentDialog";
+import AddConnections from "../components/AddConnections";
 
-  export default {
-    components: {
-      AddConnections,
-      PostTile,
-      ComponentDialog
-    },
-    name: "feeds-component",
-    data() {
-      return {
-        dialogVisible: false,
-        feed: [],
-      };
-    },
-    computed: {
-      ...mapGetters([
-        'getAllIds',
-      ]),
-    },
-    watch: {
-      getAllIds: {
-        handler: function (userIds) {
-          this.fetchPosts(userIds);
-        },
-        immediate: true,
+export default {
+  components: {
+    AddConnections,
+    PostTile,
+    ComponentDialog
+  },
+  name: "feeds-component",
+  data() {
+    return {
+      dialogVisible: false,
+      feed: []
+    };
+  },
+  computed: {
+    ...mapGetters(["getAllIds"])
+  },
+  watch: {
+    getAllIds: {
+      handler: function(userIds) {
+        this.fetchPosts(userIds);
       },
-    },
-    methods: {
-      fetchPosts(userIds) {
-        userIds.forEach((id) => {
-          new Promise ((resolve) => {
-            userRef.child(id).once('value').then((snapshot) => {
+      immediate: true
+    }
+  },
+  methods: {
+    fetchPosts(userIds) {
+      userIds.forEach(id => {
+        new Promise(resolve => {
+          userRef
+            .child(id)
+            .once("value")
+            .then(snapshot => {
               const val = snapshot.val();
               const name = `${val.firstName} ${val.lastName}`;
               const dp = val.userPic;
-              resolve({name, dp});
-            })
-          })
-        .then((userObj) => {
-          userRef.child(`${id}/posts`).on('child_added', (snapshot) => {
+              resolve({ name, dp });
+            });
+        }).then(userObj => {
+          userRef.child(`${id}/posts`).on("child_added", snapshot => {
             const postObj = snapshot.val();
             postObj.key = snapshot.key;
             postObj.userName = userObj.name;
@@ -67,13 +67,13 @@
             this.feed.push(postObj);
           });
         });
-        });
-      },
-    },
-    firebase: {
-      users: userRef
-    },
-  };
+      });
+    }
+  },
+  firebase: {
+    users: userRef
+  }
+};
 </script>
 
 <style scoped>

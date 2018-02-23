@@ -1,10 +1,15 @@
 <template>
-  <div class="user-info">
-    <img :src="userInfo.userImage" width="40px" height="40px"/>
-    <div class="user-info__name">
-     {{userInfo.name}}
-    </div>
-  </div>
+  <el-row class="user-info">
+    <el-col span=2>
+          <img :src="userInfo.userImage" width="30px" height="30px"/>
+    </el-col>
+    <el-col span=22>
+      <div class="user-info__name">
+        <span><strong>{{userInfo.name}}</strong></span>
+        <span>{{comment}}</span>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
@@ -14,6 +19,10 @@ export default {
     userInfo: {
       type: Object,
       required: true
+    },
+    comment: {
+      type: String,
+      required: false
     }
   }
 };
@@ -25,10 +34,9 @@ export default {
   justify-content: flex-start;
 
   &__name {
-    margin-left: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
   }
 }
 </style>

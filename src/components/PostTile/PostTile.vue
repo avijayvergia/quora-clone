@@ -9,7 +9,7 @@
         <img :src="post.imageUrl" style="margin: auto" v-if="post.imageUrl">
         <p>{{post.content}}</p>
       </div>
-      <comments-tile :userKey="post.key"/>
+      <comments-tile :postKey="post.key"/>
     </el-card>
     <component-dialog :post="editPost" :actionToPerform.sync="actionToPerform" :dialog-visible.sync="dialogVisible" v-if="dialogVisible">
     </component-dialog>
